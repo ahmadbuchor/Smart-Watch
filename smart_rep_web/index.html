@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Rep | Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-bg">
+  <div class="auth-container">
+    <h1 class="app-title">🏋️ Smart Rep</h1>
+
+    <!-- Form Login -->
+    <form id="loginForm" class="auth-form">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit" class="auth-btn">Login</button>
+    </form>
+
+    <p class="switch-text">
+      Belum punya akun? <a href="#" id="showRegister" class="switch-link">Daftar</a>
+    </p>
+
+    <!-- Form Register -->
+    <form id="registerForm" style="display:none">
+      <input type="text" id="regName" placeholder="Nama" required>
+      <input type="email" id="regEmail" placeholder="Email" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+
+      <!-- ✅ Tambahan field -->
+      <input type="number" id="regWeight" placeholder="Berat Badan (kg)" required>
+      <input type="number" id="regHeight" placeholder="Tinggi Badan (cm)" required>
+
+      <button type="submit">Daftar</button>
+      <p><a href="#" id="showLogin">Kembali ke login</a></p>
+    </form>
+
+  <!-- ✅ Toast Container -->
+  <div id="toastContainer"></div>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const showRegister = document.getElementById("showRegister");
+    const showLogin = document.getElementById("showLogin");
+
+    // === Switch Form ===
+    showRegister.addEventListener("click", (e) => {
+      e.preventDefault();
+      loginForm.style.display = "none";
+      registerForm.style.display = "block";
+    });
+
+    showLogin.addEventListener("click", (e) => {
+      e.preventDefault();
+      loginForm.style.display = "block";
+      registerForm.style.display = "none";
+    });
+
+    // === Toast Notification ===
+    function showToast(message, type = "success") {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.classList.add("toast", type);
+      toast.innerText = message;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add("show");
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // === LOGIN ===
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const res = await fetch("http://localhost/smart_rep_api/login.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `email=${email}&password=${password}`,
+        });
+
+        const data = await res.json();
+        if (data.status === "success") {
+          localStorage.setItem("user_id", data.user_id);
+          localStorage.setItem("user_name", data.name);
+          showToast("Login berhasil! Selamat datang, " + data.name, "success");
+          setTimeout(() => window.location.href = "dashboard.html", 1500);
+        } else {
+          showToast("Login gagal: " + data.message, "error");
+        }
+      } catch (error) {
+        showToast("Terjadi kesalahan koneksi ke server.", "error");
+        console.error(error);
+      }
+    });
+
+    // === REGISTER ===
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("regName").value;
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
+      const weight = document.getElementById("regWeight").value;
+      const height = document.getElementById("regHeight").value;
+
+      try {
+        const res = await fetch("http://localhost/smart_rep_api/register.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&weight=${encodeURIComponent(weight)}&height=${encodeURIComponent(height)}`,
+        });
+
+        const data = await res.json();
+        if (data.status === "success") {
+          // 🌟 Bisa tambahkan animasi atau redirect yang keren
+          alert("Registrasi berhasil! Silakan login.");
+          loginForm.style.display = "block";
+          registerForm.style.display = "none";
+        } else {
+          alert("Gagal: " + data.message);
+        }
+      } catch (error) {
+        alert("Terjadi kesalahan koneksi ke server.");
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>

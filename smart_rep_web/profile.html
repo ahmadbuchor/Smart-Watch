@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Rep | Profil</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <h2>👤 Profil User</h2>
+    <div>
+      <button onclick="window.location.href='dashboard.html'">🏠 Dashboard</button>
+      <button onclick="logout()">🚪 Logout</button>
+    </div>
+  </nav>
+
+  <div class="profile-container">
+    <form id="profileForm">
+      <label>Nama</label>
+      <input type="text" id="name">
+      <label>Berat Badan (kg)</label>
+      <input type="number" id="weight">
+      <label>Tinggi Badan (cm)</label>
+      <input type="number" id="height">
+      <button type="submit">Simpan</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

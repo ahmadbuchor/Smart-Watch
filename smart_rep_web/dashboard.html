@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Rep Counter & AI Trainer</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-bg">
+
+  <!-- ================= Navbar ================= -->
+  <nav>
+    <h1>🏋️ Smart Rep Counter & AI Trainer</h1>
+    <div class="nav-actions">
+      <span id="welcomeName"></span>
+      <button id="profileBtn">Profile</button>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </nav>
+
+  <!-- ================= Main Content ================= -->
+  <main>
+    <h2>Selamat datang di Smart Rep Dashboard</h2>
+    <p>Mulai latihanmu, dapatkan semangat setiap 5 reps, dan catat progresmu 🏆</p>
+
+    <!-- Kontrol tombol -->
+    <div class="control">
+      <button id="startBtn">▶ Start</button>
+      <button id="stopBtn" disabled>⏹ Stop</button>
+      <button id="resetBtn" disabled>🔄 Reset</button>
+    </div>
+
+    <!-- Statistik -->
+    <div class="stats">
+      <div class="card">
+        <h3>Total Reps</h3>
+        <p id="totalReps">0</p>
+      </div>
+      <div class="card">
+        <h3>Kalori</h3>
+        <p id="totalCalories">0 kcal</p>
+      </div>
+      <div class="card">
+        <h3>Durasi</h3>
+        <p id="duration">0 s</p>
+      </div>
+      <div class="card">
+        <h3>Highscore 🏆</h3>
+        <p id="highscore">0</p>
+      </div>
+    </div>
+
+    <!-- Grafik -->
+    <div class="chart-section">
+      <h3>Grafik Repetisi</h3>
+      <canvas id="chart"></canvas>
+    </div>
+
+    <!-- Motivasi -->
+    <div class="motivation-text" id="motivationText"></div>
+
+    <!-- Log Riwayat -->
+    <div class="log table-section">
+      <h3>Riwayat Reps</h3>
+      <ul id="repList"></ul>
+    </div>
+  </main>
+
+  <!-- ========== Profile Modal ========== -->
+  <div id="profileModal">
+    <div class="profile-card">
+      <h2>👤 Profil Pengguna</h2>
+      <p id="profileName"></p>
+      <p id="profileId"></p>
+      <p id="profileWeight"></p>
+      <p id="profileHeight"></p>
+      <p>Stay strong, keep pushing your limits 💪</p>
+      <button id="closeProfileBtn">Close</button>
+    </div>
+  </div>
+
+  <!-- ✅ Panggil script.js supaya profil, motivasi & chart sinkron -->
+  <script src="script.js"></script>
+</body>
+</html>
